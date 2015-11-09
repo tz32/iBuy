@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="#ededed">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/imageView"
+                android:background="@drawable/icon" />
+
+            <TextView android:text="   Grocery List" android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/imageView"
+                android:layout_toEndOf="@+id/imageView"
+                android:textSize="25dp"
+                android:textColor="#838282" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#d1cfcf">
+
+            <ImageButton
+                android:layout_width="15dp"
+                android:layout_height="45dp"
+                android:id="@+id/chatTab"
+                android:layout_weight="25"
+                android:clickable="false"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_gravity="bottom"
+                android:src="@drawable/chat"
+                android:background="#00ffffff" />
+
+            <ImageButton
+                android:layout_width="15dp"
+                android:layout_height="45dp"
+                android:id="@+id/listTab"
+                android:layout_weight="25"
+                android:clickable="true"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_gravity="bottom"
+                android:src="@drawable/list"
+                android:background="#909090" />
+
+            <ImageButton
+                android:layout_width="15dp"
+                android:layout_height="45dp"
+                android:id="@+id/historyTab"
+                android:layout_weight="25"
+                android:clickable="true"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_gravity="bottom"
+                android:src="@drawable/history"
+                android:background="#00ffffff" />
+
+            <ImageButton
+                android:layout_width="15dp"
+                android:layout_height="45dp"
+                android:id="@+id/settingsTab"
+                android:layout_weight="25"
+                android:clickable="false"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_gravity="bottom"
+                android:src="@drawable/settings"
+                android:background="#00ffffff" />
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            tools:context=".TodoActivity" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/task_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:hint="Enter a Task"
+                    android:textColor="#000000"
+                    android:theme="@android:style/Theme.Material.Light">
+                    <requestFocus />
+                </EditText>
+
+                <Button
+                    android:id="@+id/submit_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="createTask"
+                    android:text="Submit" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/task_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
