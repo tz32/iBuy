@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ public class Chat extends ActionBarActivity implements View.OnClickListener {
     ImageButton settingsTab;
     EditText mTaskInput;
     ListView mListView;
-    TaskAdapter mAdapter;
+    ChatListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +47,12 @@ public class Chat extends ActionBarActivity implements View.OnClickListener {
         Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
         ParseObject.registerSubclass(ChatList.class);
 
-        mTaskInput = (EditText) findViewById(R.id.task_input);
+        mTaskInput = (EditText) findViewById(R.id.chat_input);
 
-        mListView = (ListView) findViewById(R.id.task_list);
+        mListView = (ListView) findViewById(R.id.chat_list);
         mListView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
 
-        mAdapter = new TaskAdapter(this, new ArrayList<ChatList>());
+        mAdapter = new ChatListAdapter(this, new ArrayList<ChatList>());
         mListView.setAdapter(mAdapter);
 
         updateData();
@@ -85,9 +86,9 @@ public class Chat extends ActionBarActivity implements View.OnClickListener {
 
     public void createTask(View v) {
         if (mTaskInput.getText().length() > 0){
-            Task t = new Task();
+            ChatList t = new ChatList();
             t.setDescription(mTaskInput.getText().toString());
-            t.setCompleted(false);
+            //t.setCompleted(false);
             t.saveEventually();
             mTaskInput.setText("");
 
@@ -96,12 +97,12 @@ public class Chat extends ActionBarActivity implements View.OnClickListener {
     }
 
     public void updateData(){
-        ParseQuery<Task> query = ParseQuery.getQuery(Task.class);
+        ParseQuery<ChatList> query = ParseQuery.getQuery(ChatList.class);
         query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        query.findInBackground(new FindCallback<Task>() {
+        query.findInBackground(new FindCallback<ChatList>() {
 
             @Override
-            public void done(List<Task> tasks, ParseException error) {
+            public void done(List<ChatList> tasks, ParseException error) {
                 if (tasks != null) {
                     mAdapter.clear();
                     mAdapter.addAll(tasks);
@@ -111,16 +112,16 @@ public class Chat extends ActionBarActivity implements View.OnClickListener {
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Task task = mAdapter.getItem(position);
-        TextView taskDescription = (TextView) view.findViewById(R.id.task_description);
+        ChatList task = mAdapter.getItem(position);
+        TextView taskDescription = (TextView) view.findViewById(R.id.chatlist_description);
 
-        task.setCompleted(!task.isCompleted());
+        //task.setCompleted(!task.isCompleted());
 
-        if(task.isCompleted()){
-            taskDescription.setPaintFlags(taskDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        }else{
-            taskDescription.setPaintFlags(taskDescription.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-        }
+        //if(task.isCompleted()){
+        //    taskDescription.setPaintFlags(taskDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        //}else{
+        //    taskDescription.setPaintFlags(taskDescription.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        //}
 
         task.saveEventually();
     }

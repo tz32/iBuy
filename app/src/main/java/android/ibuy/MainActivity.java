@@ -50,6 +50,7 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
         Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
         ParseObject.registerSubclass(Task.class);
 
+
         mTaskInput = (EditText) findViewById(R.id.task_input);
 
         mListView = (ListView) findViewById(R.id.task_list);
