@@ -35,11 +35,13 @@ public class Settings extends ActionBarActivity implements View.OnClickListener 
             // If back button is pressed, go to the home screen
             case R.id.listTab:
                 Intent listIntent = new Intent(this, MainActivity.class);
+                listIntent.putExtra("listcalled", 1);
                 startActivity(listIntent);
                 break;
 
             case R.id.chatTab:
                 Intent chatIntent = new Intent(this, Chat.class);
+                chatIntent.putExtra("chatcalled", 1);
                 startActivity(chatIntent);
                 break;
 

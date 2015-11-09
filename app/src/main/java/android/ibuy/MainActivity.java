@@ -26,12 +26,15 @@ import com.parse.ParseQuery.CachePolicy;
 
 public class MainActivity extends Activity implements OnItemClickListener, View.OnClickListener {
 
+    int listcalled;
+
     ImageButton chatTab;
     ImageButton historyTab;
     ImageButton settingsTab;
-    EditText mTaskInput;
-    ListView mListView;
-    TaskAdapter mAdapter;
+
+    private EditText mTaskInput;
+    private ListView mListView;
+    private TaskAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +50,21 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
         settingsTab = (ImageButton) findViewById(R.id.settingsTab);
         settingsTab.setOnClickListener(this);
 
-        Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
-        ParseObject.registerSubclass(Task.class);
+        listcalled = 0;
+
+        Intent intent = getIntent();
+        listcalled = intent.getIntExtra("listcalled", 0);
+
+        if (listcalled == 0) {
+            Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
+            ParseObject.registerSubclass(Task.class);
+        }
 
 
         mTaskInput = (EditText) findViewById(R.id.task_input);
 
         mListView = (ListView) findViewById(R.id.task_list);
-        mListView.setOnItemClickListener((OnItemClickListener) this);
+        mListView.setOnItemClickListener(this);
 
         mAdapter = new TaskAdapter(this, new ArrayList<Task>());
         mListView.setAdapter(mAdapter);
@@ -90,6 +100,7 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
         {
             case R.id.chatTab:
                 Intent chatIntent = new Intent(this, Chat.class);
+                chatIntent.putExtra("chatcalled", 1);
                 startActivity(chatIntent);
                 break;
 

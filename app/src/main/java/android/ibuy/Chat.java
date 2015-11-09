@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -21,14 +22,17 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chat extends ActionBarActivity implements View.OnClickListener {
+public class Chat extends ActionBarActivity implements View.OnClickListener, OnItemClickListener {
+
+    int chatcalled;
 
     ImageButton listTab;
     ImageButton historyTab;
     ImageButton settingsTab;
-    EditText mTaskInput;
-    ListView mListView;
-    ChatListAdapter mAdapter;
+
+    private EditText cTaskInput;
+    private ListView cListView;
+    private ChatListAdapter cAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +48,23 @@ public class Chat extends ActionBarActivity implements View.OnClickListener {
         settingsTab = (ImageButton) findViewById(R.id.settingsTab);
         settingsTab.setOnClickListener(this);
 
-        Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
-        ParseObject.registerSubclass(ChatList.class);
+        chatcalled = 0;
 
-        mTaskInput = (EditText) findViewById(R.id.chat_input);
+        Intent intent = getIntent();
+        chatcalled = intent.getIntExtra("chatcalled", 0);
 
-        mListView = (ListView) findViewById(R.id.chat_list);
-        mListView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+        //if (chatcalled == 0) {
+        //    Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
+        //    ParseObject.registerSubclass(Task.class);
+        //}
 
-        mAdapter = new ChatListAdapter(this, new ArrayList<ChatList>());
-        mListView.setAdapter(mAdapter);
+        cTaskInput = (EditText) findViewById(R.id.chat_input);
+
+        cListView = (ListView) findViewById(R.id.chat_list);
+        //cListView.setOnItemClickListener(this);
+
+        cAdapter = new ChatListAdapter(this, new ArrayList<ChatList>());
+        //cListView.setAdapter(cAdapter);
 
         updateData();
 
@@ -66,6 +77,7 @@ public class Chat extends ActionBarActivity implements View.OnClickListener {
             // If back button is pressed, go to the home screen
             case R.id.listTab:
                 Intent listIntent = new Intent(this, MainActivity.class);
+                listIntent.putExtra("listcalled", 1);
                 startActivity(listIntent);
                 break;
 
@@ -85,14 +97,14 @@ public class Chat extends ActionBarActivity implements View.OnClickListener {
     }
 
     public void createTask(View v) {
-        if (mTaskInput.getText().length() > 0){
+        if (cTaskInput.getText().length() > 0){
             ChatList t = new ChatList();
-            t.setDescription(mTaskInput.getText().toString());
+            t.setDescription(cTaskInput.getText().toString());
             //t.setCompleted(false);
             t.saveEventually();
-            mTaskInput.setText("");
+            cTaskInput.setText("");
 
-            mAdapter.insert(t, 0);
+            cAdapter.insert(t, 0);
         }
     }
 
@@ -104,15 +116,15 @@ public class Chat extends ActionBarActivity implements View.OnClickListener {
             @Override
             public void done(List<ChatList> tasks, ParseException error) {
                 if (tasks != null) {
-                    mAdapter.clear();
-                    mAdapter.addAll(tasks);
+                    cAdapter.clear();
+                    cAdapter.addAll(tasks);
                 }
             }
         });
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ChatList task = mAdapter.getItem(position);
+        ChatList task = cAdapter.getItem(position);
         TextView taskDescription = (TextView) view.findViewById(R.id.chatlist_description);
 
         //task.setCompleted(!task.isCompleted());

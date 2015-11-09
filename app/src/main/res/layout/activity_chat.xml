@@ -86,49 +86,49 @@
                 android:src="@drawable/settings"
                 android:background="#00ffffff" />
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        tools:context=".TodoActivity" >
-
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            tools:context=".TodoActivity" >
 
-            <EditText
-                android:id="@+id/chat_input"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="Enter a Task"
-                android:textColor="#000000"
-                android:theme="@android:style/Theme.Material.Light">
-                <requestFocus />
-            </EditText>
+                android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/submit_button"
-                android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/chat_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:hint="Enter a Task"
+                    android:textColor="#000000"
+                    android:theme="@android:style/Theme.Material.Light">
+                    <requestFocus />
+                </EditText>
+
+                <Button
+                    android:id="@+id/submit_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="createTask"
+                    android:text="Submit" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/chat_list"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="createTask"
-                android:text="Submit" />
+                android:footerDividersEnabled="false" />
+
         </LinearLayout>
-
-        <ListView
-            android:id="@+id/chat_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:footerDividersEnabled="false" />
-
     </LinearLayout>
 
 </RelativeLayout>
