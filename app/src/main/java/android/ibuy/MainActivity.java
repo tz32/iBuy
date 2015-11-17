@@ -99,7 +99,7 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
         switch (v.getId())
         {
             case R.id.chatTab:
-                Intent chatIntent = new Intent(this, Chat.class);
+                Intent chatIntent = new Intent(this, ChatActivity.class);
                 chatIntent.putExtra("chatcalled", 1);
                 startActivity(chatIntent);
                 break;
