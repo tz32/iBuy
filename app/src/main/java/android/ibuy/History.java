@@ -1,16 +1,31 @@
 package android.ibuy;
 
 import android.content.Intent;
+import android.net.MailTo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
-public class History extends ActionBarActivity implements View.OnClickListener {
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class History extends ActionBarActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     ImageButton listTab;
     ImageButton chatTab;
     ImageButton settingsTab;
+
+    ArrayList<String> completedtasks;
+
+    private ListView mListView;
+    private HistoryAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +40,20 @@ public class History extends ActionBarActivity implements View.OnClickListener {
 
         settingsTab = (ImageButton) findViewById(R.id.settingsTab);
         settingsTab.setOnClickListener(this);
+
+        mListView = (ListView) findViewById(R.id.historylist);
+        mListView.setOnItemClickListener(this);
+
+        mAdapter = new HistoryAdapter(this, new ArrayList<String>());
+        mListView.setAdapter(mAdapter);
+
+        Intent intent = getIntent();
+        completedtasks = intent.getStringArrayListExtra("completedlist");
+
+        if (completedtasks != null)
+            mAdapter.addAll(completedtasks);
     }
+
 
     @Override
     public void onClick(View v) {
@@ -38,8 +66,7 @@ public class History extends ActionBarActivity implements View.OnClickListener {
                 break;
 
             case R.id.chatTab:
-                Intent chatIntent = new Intent(this, Chat.class);
-                chatIntent.putExtra("chatcalled", 1);
+                Intent chatIntent = new Intent(this, ChatActivity.class);
                 startActivity(chatIntent);
                 break;
 
@@ -51,5 +78,10 @@ public class History extends ActionBarActivity implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }

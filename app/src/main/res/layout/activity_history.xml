@@ -85,7 +85,13 @@
                 android:layout_gravity="bottom"
                 android:src="@drawable/settings"
                 android:background="#00ffffff" />
+
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/historylist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package android.ibuy;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
@@ -27,6 +28,7 @@ import com.parse.ParseQuery.CachePolicy;
 public class MainActivity extends Activity implements OnItemClickListener, View.OnClickListener {
 
     int listcalled;
+    List<Task> completedtasks;
 
     ImageButton chatTab;
     ImageButton historyTab;
@@ -38,6 +40,7 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -51,9 +54,7 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
         settingsTab.setOnClickListener(this);
 
         listcalled = 0;
-
-        Intent intent = getIntent();
-        listcalled = intent.getIntExtra("listcalled", 0);
+        boolean skiptohistory = false;
 
         if (listcalled == 0) {
             Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
@@ -68,6 +69,19 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
 
         mAdapter = new TaskAdapter(this, new ArrayList<Task>());
         mListView.setAdapter(mAdapter);
+
+        Intent intent = getIntent();
+        listcalled = intent.getIntExtra("listcalled", 0);
+        skiptohistory = intent.getBooleanExtra("skiptohistory", false);
+
+        if (skiptohistory)
+        {
+            updateData();
+            Intent historyIntent = new Intent(this, History.class);
+            historyIntent.putStringArrayListExtra("completedlist", convertToStringList(completedtasks));
+            startActivity(historyIntent);
+        }
+
 
         updateData();
 
@@ -96,27 +110,44 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
     }
 
     public void onClick(View v) {
+
+        updateData();
+
         switch (v.getId())
         {
             case R.id.chatTab:
                 Intent chatIntent = new Intent(this, ChatActivity.class);
-                chatIntent.putExtra("chatcalled", 1);
+                chatIntent.putStringArrayListExtra("completedlist", convertToStringList(completedtasks));
                 startActivity(chatIntent);
                 break;
 
             case R.id.historyTab:
                 Intent historyIntent = new Intent(this, History.class);
+                historyIntent.putStringArrayListExtra("completedlist", convertToStringList(completedtasks));
                 startActivity(historyIntent);
                 break;
 
             case R.id.settingsTab:
                 Intent settingsIntent = new Intent(this, Settings.class);
+                settingsIntent.putStringArrayListExtra("completedlist", convertToStringList(completedtasks));
                 startActivity(settingsIntent);
                 break;
 
             default:
               break;
         }
+    }
+
+
+    public ArrayList<String> convertToStringList(List<Task> completedlist)
+    {
+        ArrayList<String> completedarray = new ArrayList<String>();
+        for (int i = 0; i < completedlist.size(); i++)
+        {
+            completedarray.add(completedlist.get(i).getDescription());
+        }
+
+        return completedarray;
     }
 
     public void createTask(View v) {
@@ -140,6 +171,18 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
             public void done(List<Task> tasks, ParseException error) {
                 if (tasks != null) {
                     mAdapter.clear();
+
+                    completedtasks = new ArrayList<Task>();
+
+                    for (int i = 0; i < tasks.size(); i++)
+                    {
+                        if (tasks.get(i).isCompleted())//(temptask.isCompleted() == false)
+                        {
+                            completedtasks.add(tasks.get(i));
+                            tasks.remove(tasks.get(i));
+                            i--;
+                        }
+                    }
                     mAdapter.addAll(tasks);
                 }
             }

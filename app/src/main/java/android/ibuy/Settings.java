@@ -6,11 +6,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Settings extends ActionBarActivity implements View.OnClickListener {
 
     ImageButton chatTab;
     ImageButton listTab;
     ImageButton historyTab;
+
+    ArrayList<String> completedtasks;
 
 
     @Override
@@ -26,6 +31,9 @@ public class Settings extends ActionBarActivity implements View.OnClickListener 
 
         historyTab = (ImageButton) findViewById(R.id.historyTab);
         historyTab.setOnClickListener(this);
+
+        Intent intent = getIntent();
+        completedtasks = intent.getStringArrayListExtra("completedlist");
     }
 
     @Override
@@ -40,13 +48,14 @@ public class Settings extends ActionBarActivity implements View.OnClickListener 
                 break;
 
             case R.id.chatTab:
-                Intent chatIntent = new Intent(this, Chat.class);
-                chatIntent.putExtra("chatcalled", 1);
+                Intent chatIntent = new Intent(this, ChatActivity.class);
+                chatIntent.putStringArrayListExtra("completedlist", completedtasks);
                 startActivity(chatIntent);
                 break;
 
             case R.id.historyTab:
                 Intent historyIntent = new Intent(this, History.class);
+                historyIntent.putStringArrayListExtra("completedlist", completedtasks);
                 startActivity(historyIntent);
                 break;
 

@@ -30,6 +30,8 @@ public class Chat extends ActionBarActivity implements View.OnClickListener, OnI
     ImageButton historyTab;
     ImageButton settingsTab;
 
+    ArrayList<String> completedtasks;
+
     private EditText cTaskInput;
     private ListView cListView;
     private ChatListAdapter cAdapter;
@@ -48,10 +50,7 @@ public class Chat extends ActionBarActivity implements View.OnClickListener, OnI
         settingsTab = (ImageButton) findViewById(R.id.settingsTab);
         settingsTab.setOnClickListener(this);
 
-        chatcalled = 0;
 
-        Intent intent = getIntent();
-        chatcalled = intent.getIntExtra("chatcalled", 0);
 
         //if (chatcalled == 0) {
         //    Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
@@ -66,8 +65,8 @@ public class Chat extends ActionBarActivity implements View.OnClickListener, OnI
         cAdapter = new ChatListAdapter(this, new ArrayList<ChatList>());
         //cListView.setAdapter(cAdapter);
 
-        updateData();
-
+        Intent intent = getIntent();
+        completedtasks = intent.getStringArrayListExtra("completedlist");
     }
 
     @Override
@@ -82,12 +81,14 @@ public class Chat extends ActionBarActivity implements View.OnClickListener, OnI
                 break;
 
             case R.id.historyTab:
-                Intent historyIntent = new Intent(this, History.class);
+                Intent historyIntent = new Intent(this, MainActivity.class);
+                historyIntent.putExtra("skiptohistory", true);
                 startActivity(historyIntent);
                 break;
 
             case R.id.settingsTab:
                 Intent settingsIntent = new Intent(this, Settings.class);
+                settingsIntent.putStringArrayListExtra("completedlist", completedtasks);
                 startActivity(settingsIntent);
                 break;
 
@@ -95,6 +96,8 @@ public class Chat extends ActionBarActivity implements View.OnClickListener, OnI
                 break;
         }
     }
+
+
 
     public void createTask(View v) {
         if (cTaskInput.getText().length() > 0){
@@ -106,21 +109,6 @@ public class Chat extends ActionBarActivity implements View.OnClickListener, OnI
 
             cAdapter.insert(t, 0);
         }
-    }
-
-    public void updateData(){
-        ParseQuery<ChatList> query = ParseQuery.getQuery(ChatList.class);
-        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
-        query.findInBackground(new FindCallback<ChatList>() {
-
-            @Override
-            public void done(List<ChatList> tasks, ParseException error) {
-                if (tasks != null) {
-                    cAdapter.clear();
-                    cAdapter.addAll(tasks);
-                }
-            }
-        });
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -55,14 +56,17 @@ import java.util.Set;
  * {"type":"groupMessage","data":{"chatUser":"Dev","chatMsg":"Hello World!","chatTime":1436642192966}}
  *
  */
-public class ChatActivity extends ListActivity {
+public class ChatActivity extends ListActivity implements View.OnClickListener {
     private Pubnub mPubNub;
-    private Button mChannelView;
     private EditText mMessageET;
     private MenuItem mHereNow;
     private ListView mListView;
     private ChatAdapter mChatAdapter;
     private SharedPreferences mSharedPrefs;
+
+    ImageButton listTab;
+    ImageButton historyTab;
+    ImageButton settingsTab;
 
     private String username;
     private String channel  = "MainChat";
@@ -74,6 +78,15 @@ public class ChatActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_new);
+
+        listTab = (ImageButton) findViewById(R.id.listTab);
+        listTab.setOnClickListener(this);
+
+        historyTab = (ImageButton) findViewById(R.id.historyTab);
+        historyTab.setOnClickListener(this);
+
+        settingsTab = (ImageButton) findViewById(R.id.settingsTab);
+        settingsTab.setOnClickListener(this);
 
         mSharedPrefs = getSharedPreferences(Constants.CHAT_PREFS, MODE_PRIVATE);
         if (!mSharedPrefs.contains(Constants.CHAT_USERNAME)){
@@ -88,7 +101,7 @@ public class ChatActivity extends ListActivity {
             if (extras.containsKey(Constants.CHAT_ROOM)) this.channel = extras.getString(Constants.CHAT_ROOM);
         }
 
-        this.username = mSharedPrefs.getString(Constants.CHAT_USERNAME,"Anonymous");
+        this.username = mSharedPrefs.getString(Constants.CHAT_USERNAME, "Anonymous");
         this.mListView = getListView();
         this.mChatAdapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
         this.mChatAdapter.userPresence(this.username, "join"); // Set user to online. Status changes handled in presence
@@ -97,8 +110,6 @@ public class ChatActivity extends ListActivity {
         setupListView();
 
         this.mMessageET = (EditText) findViewById(R.id.message_et);
-        this.mChannelView = (Button) findViewById(R.id.channel_bar);
-        this.mChannelView.setText(this.channel);
 
         initPubNub();
     }
@@ -531,7 +542,6 @@ public class ChatActivity extends ListActivity {
                                 mPubNub.unsubscribe(channel);
                                 mChatAdapter.clearMessages();
                                 channel = newChannel;
-                                mChannelView.setText(channel);
                                 subscribeWithPresence();
                                 history();
                             }
@@ -611,6 +621,31 @@ public class ChatActivity extends ListActivity {
 
     private void sendRegistrationId(String regId) {
         this.mPubNub.enablePushNotificationsOnChannel(this.username, regId, new BasicCallback());
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.listTab:
+                Intent listIntent = new Intent(this, MainActivity.class);
+                listIntent.putExtra("listcalled", 1);
+                startActivity(listIntent);
+                break;
+
+            case R.id.historyTab:
+                Intent historyIntent = new Intent(this, History.class);
+                startActivity(historyIntent);
+                break;
+
+            case R.id.settingsTab:
+                Intent settingsIntent = new Intent(this, Settings.class);
+                startActivity(settingsIntent);
+                break;
+
+            default:
+                break;
+        }
     }
 
     private class RegisterTask extends AsyncTask<Void, Void, String>{
