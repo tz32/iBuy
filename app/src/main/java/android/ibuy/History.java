@@ -67,11 +67,13 @@ public class History extends ActionBarActivity implements View.OnClickListener, 
 
             case R.id.chatTab:
                 Intent chatIntent = new Intent(this, ChatActivity.class);
+                chatIntent.putStringArrayListExtra("completedlist", completedtasks);
                 startActivity(chatIntent);
                 break;
 
             case R.id.settingsTab:
                 Intent settingsIntent = new Intent(this, Settings.class);
+                settingsIntent.putStringArrayListExtra("completedlist", completedtasks);
                 startActivity(settingsIntent);
                 break;
 

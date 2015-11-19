@@ -56,10 +56,7 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
         listcalled = 0;
         boolean skiptohistory = false;
 
-        if (listcalled == 0) {
-            Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
-            ParseObject.registerSubclass(Task.class);
-        }
+
 
 
         mTaskInput = (EditText) findViewById(R.id.task_input);
@@ -74,6 +71,11 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
         listcalled = intent.getIntExtra("listcalled", 0);
         skiptohistory = intent.getBooleanExtra("skiptohistory", false);
 
+        if (listcalled == 0) {
+            Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
+            ParseObject.registerSubclass(Task.class);
+        }
+
         if (skiptohistory)
         {
             updateData();
@@ -81,6 +83,7 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
             historyIntent.putStringArrayListExtra("completedlist", convertToStringList(completedtasks));
             startActivity(historyIntent);
         }
+
 
 
         updateData();
