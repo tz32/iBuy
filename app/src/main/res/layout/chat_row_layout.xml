@@ -43,6 +43,7 @@
     <TextView
         android:id="@+id/chat_message"
         android:text="@string/hello_world"
+        android:textColor="#333"
         android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
