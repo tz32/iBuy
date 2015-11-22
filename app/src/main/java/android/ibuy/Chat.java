@@ -81,8 +81,8 @@ public class Chat extends ActionBarActivity implements View.OnClickListener, OnI
                 break;
 
             case R.id.historyTab:
-                Intent historyIntent = new Intent(this, MainActivity.class);
-                historyIntent.putExtra("skiptohistory", true);
+                Intent historyIntent = new Intent(this, History.class);
+                historyIntent.putStringArrayListExtra("completedlist", completedtasks);
                 startActivity(historyIntent);
                 break;
 

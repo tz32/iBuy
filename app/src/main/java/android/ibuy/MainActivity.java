@@ -71,9 +71,15 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
         listcalled = intent.getIntExtra("listcalled", 0);
         skiptohistory = intent.getBooleanExtra("skiptohistory", false);
 
-        if (listcalled == 0) {
-            Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
-            ParseObject.registerSubclass(Task.class);
+        try {
+            if (listcalled == 0) {
+                Parse.initialize(this, "Bdpx4McPbNgNqUr5SErqCNHTbZIX0PWMjY7Qzybl", "H8MaKiFdi9ka6eAqtSsbR86503MHhjN9rOAxS8hp");
+                ParseObject.registerSubclass(Task.class);
+            }
+        }
+        catch (IllegalStateException e)
+        {
+
         }
 
         if (skiptohistory)

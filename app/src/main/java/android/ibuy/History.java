@@ -1,6 +1,7 @@
 package android.ibuy;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.MailTo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -84,6 +86,17 @@ public class History extends ActionBarActivity implements View.OnClickListener, 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+//        String task = mAdapter.getItem(position);
+//        TextView taskDescription = (TextView) view.findViewById(R.id.task_description);
+//
+//        task.setCompleted(!task.isCompleted());
+//
+//        if(task.isCompleted()){
+//            taskDescription.setPaintFlags(taskDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//        }else{
+//            taskDescription.setPaintFlags(taskDescription.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+//        }
+//
+//        task.saveEventually();
     }
 }
