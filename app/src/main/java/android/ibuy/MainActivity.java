@@ -209,7 +209,7 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
         Task task = mAdapter.getItem(position);
         TextView taskDescription = (TextView) view.findViewById(R.id.task_description);
 
-        task.setCompleted(!task.isCompleted());
+
 
         if (task.getUser() == 0) {
             task.setUser(currentUser);
@@ -218,6 +218,8 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
         }
         else
         {
+            task.setCompleted(!task.isCompleted());
+
             if (task.isCompleted()) {
                 taskDescription.setPaintFlags(taskDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {

@@ -69,7 +69,7 @@ public class ChatActivity extends ListActivity implements View.OnClickListener {
     ImageButton settingsTab;
 
     private String username;
-    private String channel  = "MainChat";
+    private String channel  = "Main Chat";
 
     //private GoogleCloudMessaging gcm;
     private String gcmRegId;
