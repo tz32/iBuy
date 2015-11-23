@@ -144,9 +144,6 @@ public class ChatActivity extends ListActivity implements View.OnClickListener {
             case R.id.action_sign_out:
                 signOut();
                 return true;
-            case R.id.action_gcm_register:
-                gcmRegister();
-                return true;
             case R.id.action_gcm_unregister:
                 gcmUnregister();
                 return true;
@@ -203,7 +200,7 @@ public class ChatActivity extends ListActivity implements View.OnClickListener {
         this.mPubNub.setUUID(this.username);
         subscribeWithPresence();
         history();
-        gcmRegister();
+        //gcmRegister();
     }
 
     /**
@@ -395,7 +392,7 @@ public class ChatActivity extends ListActivity implements View.OnClickListener {
      * Get last 100 messages sent on current channel from history.
      */
     public void history(){
-        this.mPubNub.history(this.channel,100,true,new Callback() {
+        this.mPubNub.history(this.channel, 100, true, new Callback() {
             @Override
             public void successCallback(String channel, final Object message) {
                 try {
@@ -406,8 +403,8 @@ public class ChatActivity extends ListActivity implements View.OnClickListener {
                     for (int i = 0; i < messages.length(); i++) {
                         JSONObject jsonMsg = messages.getJSONObject(i).getJSONObject("data");
                         String name = jsonMsg.getString(Constants.JSON_USER);
-                        String msg  = jsonMsg.getString(Constants.JSON_MSG);
-                        long time   = jsonMsg.getLong(Constants.JSON_TIME);
+                        String msg = jsonMsg.getString(Constants.JSON_MSG);
+                        long time = jsonMsg.getLong(Constants.JSON_TIME);
                         ChatMessage chatMsg = new ChatMessage(name, msg, time);
                         chatMsgs.add(chatMsg);
                     }
@@ -417,7 +414,9 @@ public class ChatActivity extends ListActivity implements View.OnClickListener {
                             mChatAdapter.setMessages(chatMsgs);
                         }
                     });
-                } catch (JSONException e){ e.printStackTrace(); }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -556,16 +555,6 @@ public class ChatActivity extends ListActivity implements View.OnClickListener {
         alertDialog.show();
     }
 
-    /**
-     * GCM Functionality.
-     * In order to use GCM Push notifications you need an API key and a Sender ID.
-     * Get your key and ID at - https://developers.google.com/cloud-messaging/
-     */
-
-    private void gcmRegister() {
-        Log.e("GCM-register", "No valid Google Play Services APK found.");
-    }
-
     private void gcmUnregister() {
         new UnregisterTask().execute();
     }
@@ -596,31 +585,6 @@ public class ChatActivity extends ListActivity implements View.OnClickListener {
         }
         catch (JSONException e) { e.printStackTrace(); }
         catch (PubnubException e) { e.printStackTrace(); }
-    }
-
-    private boolean checkPlayServices() {
-        return false;
-    }
-
-    private void registerInBackground() {
-        new RegisterTask().execute();
-    }
-
-    private void storeRegistrationId(String regId) {
-        SharedPreferences prefs = getSharedPreferences(Constants.CHAT_PREFS, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constants.GCM_REG_ID, regId);
-        editor.apply();
-    }
-
-
-    private String getRegistrationId() {
-        SharedPreferences prefs = getSharedPreferences(Constants.CHAT_PREFS, Context.MODE_PRIVATE);
-        return prefs.getString(Constants.GCM_REG_ID, "");
-    }
-
-    private void sendRegistrationId(String regId) {
-        this.mPubNub.enablePushNotificationsOnChannel(this.username, regId, new BasicCallback());
     }
 
     @Override

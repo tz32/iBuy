@@ -29,4 +29,12 @@ public class Task extends ParseObject{
     public void setDescription(String description){
         put("description", description);
     }
+
+    public int getUser(){
+        return getInt("userID");
+    }
+
+    public void setUser(int userID){
+        put("userID", userID);
+    }
 }

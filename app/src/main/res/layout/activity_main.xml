@@ -49,7 +49,7 @@
                 android:paddingRight="15dp"
                 android:layout_gravity="bottom"
                 android:src="@drawable/chat"
-                android:background="#00ffffff" />
+                android:background="@color/pn_blue" />
 
             <ImageButton
                 android:layout_width="15dp"
@@ -61,7 +61,7 @@
                 android:paddingRight="15dp"
                 android:layout_gravity="bottom"
                 android:src="@drawable/list"
-                android:background="#909090" />
+                android:background="@color/selected" />
 
             <ImageButton
                 android:layout_width="15dp"
@@ -73,7 +73,7 @@
                 android:paddingRight="15dp"
                 android:layout_gravity="bottom"
                 android:src="@drawable/history"
-                android:background="#00ffffff" />
+                android:background="@color/pn_blue" />
 
             <ImageButton
                 android:layout_width="15dp"
@@ -85,7 +85,7 @@
                 android:paddingRight="15dp"
                 android:layout_gravity="bottom"
                 android:src="@drawable/settings"
-                android:background="#00ffffff" />
+                android:background="@color/pn_blue" />
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -100,7 +100,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingTop="5dp">
 
                 <EditText
                     android:id="@+id/task_input"

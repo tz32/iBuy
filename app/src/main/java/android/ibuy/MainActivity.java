@@ -6,6 +6,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,7 +30,11 @@ import com.parse.ParseQuery.CachePolicy;
 
 public class MainActivity extends Activity implements OnItemClickListener, View.OnClickListener {
 
+    int currentUser = 2;
+
     int listcalled;
+    Bitmap bm;
+    RoundImage roundedImage;
     List<Task> completedtasks;
 
     ImageButton chatTab;
@@ -204,12 +211,72 @@ public class MainActivity extends Activity implements OnItemClickListener, View.
 
         task.setCompleted(!task.isCompleted());
 
-        if(task.isCompleted()){
-            taskDescription.setPaintFlags(taskDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        }else{
-            taskDescription.setPaintFlags(taskDescription.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        if (task.getUser() == 0) {
+            task.setUser(currentUser);
+
+            updateImage(view);
+        }
+        else
+        {
+            if (task.isCompleted()) {
+                taskDescription.setPaintFlags(taskDescription.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                taskDescription.setPaintFlags(taskDescription.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            }
+
+
         }
 
         task.saveEventually();
+    }
+
+    private void updateImage(View view) {
+        ImageView userView = (ImageView) view.findViewById(R.id.img);
+
+        switch (currentUser)
+        {
+            case 1:
+                bm = BitmapFactory.decodeResource(getResources(), R.drawable.rick);
+                roundedImage = new RoundImage(bm);
+                userView.setImageDrawable(roundedImage);
+                //userView.setImageResource(R.drawable.rick);
+                break;
+            case 2:
+                bm = BitmapFactory.decodeResource(getResources(),R.drawable.morty);
+                roundedImage = new RoundImage(bm);
+                userView.setImageDrawable(roundedImage);
+                //userView.setImageResource(R.drawable.morty);
+                break;
+            case 3:
+                bm = BitmapFactory.decodeResource(getResources(),R.drawable.meeseeks);
+                roundedImage = new RoundImage(bm);
+                userView.setImageDrawable(roundedImage);
+                //userView.setImageResource(R.drawable.meeseeks);
+                break;
+            case 4:
+                bm = BitmapFactory.decodeResource(getResources(),R.drawable.summer);
+                roundedImage = new RoundImage(bm);
+                userView.setImageDrawable(roundedImage);
+                //userView.setImageResource(R.drawable.summer);
+                break;
+            case 5:
+                bm = BitmapFactory.decodeResource(getResources(),R.drawable.dude);
+                roundedImage = new RoundImage(bm);
+                userView.setImageDrawable(roundedImage);
+                //userView.setImageResource(R.drawable.summer);
+                break;
+            case 6:
+                bm = BitmapFactory.decodeResource(getResources(),R.drawable.beth);
+                roundedImage = new RoundImage(bm);
+                userView.setImageDrawable(roundedImage);
+                //userView.setImageResource(R.drawable.summer);
+                break;
+            default:
+                bm = BitmapFactory.decodeResource(getResources(),R.drawable.empty);
+                roundedImage = new RoundImage(bm);
+                userView.setImageDrawable(roundedImage);
+                //userView.setImageResource(R.drawable.empty);
+                break;
+        }
     }
 }
